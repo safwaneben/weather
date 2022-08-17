@@ -8,7 +8,8 @@ WORKDIR /app
 COPY ./requirements.txt /app/requirements.txt
 
 # install the dependencies and packages in the requirements file
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt \
+    apk add curl
 
 # copy every content from the local file to the image
 COPY . /app
