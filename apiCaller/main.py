@@ -12,7 +12,10 @@ def get_data():
     }
     api_result = requests.get('http://api.weatherstack.com/current', params)
     api_response = api_result.json()
-    return api_response['location']['name'], api_response['current']['temperature']
+    return {
+        "Ville":api_response['location']['name'],
+        "Temperature":api_response['current']['temperature']
+    }
 
 if __name__ == '__main__':
 
