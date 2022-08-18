@@ -1,0 +1,28 @@
+services:
+    apicaller:
+        build:
+          context: ./apicaller
+          dockerfile: Dockerfile
+        ports:
+            - 8081:8081
+
+    dataparser:
+        build:
+          context: ./dataparser
+          dockerfile: Dockerfile
+        ports:
+            - 8082:8082
+    
+    predictionservice:
+        build:
+          context: ./predictionservice
+          dockerfile: Dockerfile
+        ports:
+            - 8083:8083
+
+    visualizerservice:
+        build:
+          context: ./visualizerservice
+          dockerfile: Dockerfile
+        ports:
+            - 8084:8084
