@@ -1,8 +1,6 @@
 services:
     apicaller:
-        build:
-          context: ./apicaller
-          dockerfile: Dockerfile
+        build: ./apicaller
         ports:
             - 8081:8081
 
