@@ -15,8 +15,6 @@ services:
             - 8083:8083
 
     visualizerservice:
-        build:
-          context: ./visualizerservice
-          dockerfile: Dockerfile
+        build: ./visualizerservice
         ports:
             - 8084:8084
