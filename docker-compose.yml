@@ -5,9 +5,7 @@ services:
             - 8081:8081
 
     dataparser:
-        build:
-          context: ./dataparser
-          dockerfile: Dockerfile
+        build: ./dataparser
         ports:
             - 8082:8082
     
