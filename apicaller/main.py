@@ -1,8 +1,8 @@
 from flask import Flask
 import requests
+import json
 
 app = Flask(__name__)
-
 
 @app.route("/apicaller")
 def apicaller():
@@ -12,10 +12,13 @@ def apicaller():
     }
     api_result = requests.get('http://api.weatherstack.com/current', params)
     api_response = api_result.json()
-    return {
+    res = {
         "Ville":api_response['location']['name'],
-        "Temperature":api_response['current']['temperature']
+        "Temperature":api_response['current']['temperature'],
+        "Date":api_response['location']['localtime']
     }
+    return res
+
 
 HOST = '0.0.0.0'
 PORT = 8081

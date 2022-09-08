@@ -1,12 +1,13 @@
 from flask import Flask
 import requests
 
+
 app = Flask(__name__)
 
 
 @app.route("/data_parser")
 def data_parser():
-    return "<p><strong>Je suis le data parser</strong></p>"
+    return "<p><strong>Je suis le data parser service</strong></p>"
 
 
 HOST = '0.0.0.0'
