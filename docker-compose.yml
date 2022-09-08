@@ -20,3 +20,23 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: "mongodb://root:example@mongo:27017/"
+
+    apicaller:
+        build: ./apicaller
+        ports:
+            - 8081:8081
+
+    dataparser:
+        build: ./dataparser
+        ports:
+            - 8082:8082
+    
+    predictionservice:
+        build: ./predictionservice
+        ports:
+            - 8083:8083
+
+    visualizerservice:
+        build: ./visualizerservice
+        ports:
+            - 8084:8084
