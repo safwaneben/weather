@@ -1,21 +1,25 @@
-# start by pulling the python image
-FROM python:3.8-alpine
+#Grab the latest alpine image
+FROM alpine:latest
 
-# switch working directory
-WORKDIR /app
+# Install python and pip
+RUN apk add --no-cache --update python3 py3-pip bash
+ADD ./webapp/requirements.txt /tmp/requirements.txt
 
-# copy the requirements file into the image
-COPY ./requirements.txt /app/requirements.txt
+# Install dependencies
+RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
 
-# install the dependencies and packages in the requirements file
-RUN pip install -r requirements.txt
-RUN apk update
-RUN apk --no-cache add curl
+# Add our code
+ADD ./webapp /opt/webapp/
+WORKDIR /opt/webapp
 
-# copy every content from the local file to the image
-COPY . /app
+# Expose is NOT supported by Heroku
+# EXPOSE 5000 		
 
-# configure the container to run in an executed manner
-ENTRYPOINT [ "python" ]
+# Run the image as a non-root user
+RUN adduser -D myuser
+USER myuser
 
-CMD ["main.py" ]
+# Run the app.  CMD is required to run on Heroku
+# $PORT is set by Heroku			
+CMD gunicorn --bind 0.0.0.0:$PORT wsgi 
+

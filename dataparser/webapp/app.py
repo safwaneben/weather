@@ -1,21 +1,20 @@
 from flask import Flask
-import requests
-
+import os
 
 app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello from dataparser !'
 
 
 @app.route("/data_parser")
 def data_parser():
     return "<p><strong>Je suis le data parser service</strong></p>"
 
+PORT=int(os.environ.get('PORT', 8082))
 
-HOST = '0.0.0.0'
-PORT = 8082
 
 
 if __name__ == '__main__':
-
-    app.run(host=HOST,
-            debug=False,  # automatic reloading enabled
-            port=PORT)
+    app.run(host='0.0.0.0', port=PORT)
