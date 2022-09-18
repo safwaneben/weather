@@ -1,4 +1,6 @@
-from flask import Flask, jsonify
+from crypt import methods
+from types import MethodType
+from flask import Flask, jsonify, request
 import requests
 import pymongo
 from pymongo import MongoClient
@@ -7,7 +9,6 @@ from pymongo import MongoClient
 #client = MongoClient('mongo', 27017, username='root', password='example')
 
 app = Flask(__name__)
-
 
 def get_db():
     print('Getting DB ...')
@@ -32,6 +33,18 @@ def get_stored_animals():
     animals = [{"id": animal["id"], "name": animal["name"], "type": animal["type"]} for animal in _animals]
     return jsonify({"animals": animals})
 
+# Example : curl -H "Content-Type: application/json" -X POST -d {\"name\":\"kingkong\",\"type\":\"wild\"} http://172.22.0.6:8080/add
+@app.route('/add', methods=['POST'])
+def add_weather():
+    req = request.json
+    animal={
+        "id": 5,
+        "name": req["name"],
+        "type": req["type"]
+    }
+    db = get_db()
+    db.animal_tb.insert_one(animal)
+    return "ok"
 
 
 
