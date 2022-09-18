@@ -5,10 +5,15 @@ import requests
 import pymongo
 from pymongo import MongoClient
 
+from flask import Flask
+from flask_crontab import Crontab
+
 
 #client = MongoClient('mongo', 27017, username='root', password='example')
 
 app = Flask(__name__)
+crontab = Crontab(app)
+
 
 def get_db():
     print('Getting DB ...')
@@ -47,11 +52,8 @@ def add_weather():
     db.weather_tb.insert_one(weather)
     return "ok"
 
-
-
-@app.route("/apicaller")
+@crontab.job(minute="1", hour="0")
 def apicaller():
-
 
     params = {
     'access_key': '0d04d9264a63b76659c58596c16e0fda',
@@ -65,7 +67,8 @@ def apicaller():
         "Temperature":api_response['current']['temperature'],
         "Date":api_response['location']['localtime']
     }
-    return res
+    db = get_db()
+    db.weather_tb.insert_one(res)
 
 
 HOST = '0.0.0.0'
