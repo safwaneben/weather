@@ -13,6 +13,4 @@ PORT = 8083
 
 if __name__ == '__main__':
 
-    app.run(host=HOST,
-            debug=False,  # automatic reloading enabled
-            port=PORT)
+    app.run(host=HOST)
