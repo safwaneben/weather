@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 import requests
+import pymongo
 from pymongo import MongoClient
 
 
@@ -25,19 +26,13 @@ def ping_server():
 
 @app.route('/animals')
 def get_stored_animals():
-    db=""
-    try:
-        db = get_db()
-        print('db = ', db)
-        _animals = db.animal_tb.find()
-        animals = [{"id": animal["id"], "name": animal["name"], "type": animal["type"]} for animal in _animals]
-        return jsonify({"animals": animals})
+    db = get_db()
+    print('db = ', db)
+    _animals = db.animal_tb.find()
+    animals = [{"id": animal["id"], "name": animal["name"], "type": animal["type"]} for animal in _animals]
+    return jsonify({"animals": animals})
 
-    except:
-        pass
-    finally:
-        if type(db)==MongoClient:
-            db.close()
+
 
 
 @app.route("/apicaller")
