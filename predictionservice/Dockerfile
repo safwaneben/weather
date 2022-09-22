@@ -15,7 +15,13 @@ RUN apk --no-cache add curl
 # copy every content from the local file to the image
 COPY . /app
 
-# configure the container to run in an executed manner
-ENTRYPOINT [ "python" ]
+# Expose is NOT supported by Heroku
+# EXPOSE 5000 		
 
-CMD ["main.py" ]
+# Run the image as a non-root user pas nécessaire
+#RUN adduser -D myuser
+#USER myuser
+
+# Run the app.  CMD is required to run on Heroku
+# $PORT is set by Heroku			
+CMD gunicorn --bind 0.0.0.0:$PORT wsgi
