@@ -1,8 +1,5 @@
-from crypt import methods
-from types import MethodType
 from flask import Flask, jsonify, request
 import requests
-import pymongo
 from pymongo import MongoClient
 
 from flask import Flask
@@ -52,7 +49,6 @@ def add_weather():
     db.weather_tb.insert_one(weather)
     return "ok"
 
-@crontab.job(minute="1", hour="0")
 def apicaller():
 
     params = {
