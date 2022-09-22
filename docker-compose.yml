@@ -28,11 +28,11 @@ services:
             - 8082:8082
 
     predictionservice:
-        build: ./deploy/predictionservice
+        build: ./deploy/prediction
         ports:
             - 8083:8083
 
     visualizerservice:
-        build: ./deploy/visualizerservice
+        build: ./deploy/visualizer
         ports:
             - 8084:8084
