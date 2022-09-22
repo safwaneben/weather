@@ -68,10 +68,9 @@ def apicaller():
 
 
 HOST = '0.0.0.0'
-PORT = 8080
+PORT=8080
 
 if __name__ == '__main__':
 
     app.run(host=HOST,
-            debug=False,  # automatic reloading enabled
-            port=PORT)
+                    debug=True)
