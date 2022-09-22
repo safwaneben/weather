@@ -8,7 +8,7 @@ COPY ./requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 RUN apk update
 RUN apk --no-cache add curl
-EXPOSE 8081
+EXPOSE 8080
 
 # copy every content from the local file to the image
 COPY . /app
