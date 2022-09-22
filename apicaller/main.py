@@ -3,13 +3,12 @@ import requests
 from pymongo import MongoClient
 
 from flask import Flask
-from flask_crontab import Crontab
+import os
 
 
 #client = MongoClient('mongo', 27017, username='root', password='example')
 
 app = Flask(__name__)
-crontab = Crontab(app)
 
 
 def get_db():
@@ -68,9 +67,10 @@ def apicaller():
 
 
 HOST = '0.0.0.0'
-PORT=8080
+PORT = os.environ.get('PORT', 8080)
 
 if __name__ == '__main__':
 
     app.run(host=HOST,
-                    debug=True)
+            debug=True,
+            port=PORT)

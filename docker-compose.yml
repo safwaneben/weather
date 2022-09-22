@@ -14,7 +14,9 @@ services:
             - MONGO_INITDB_ROOT_PASSWORD=example
 
     apicaller:
-        build: ./deploy/apicaller
+        build:
+            context: ./apicaller
+            dockerfile: ../deploy/apicaller/Dockerfile
         depends_on:
             - mongo
         ports:
@@ -23,16 +25,22 @@ services:
             - mongo
 
     dataparser:
-        build: ./deploy/dataparser
+        build:
+            context: ./dataparser
+            dockerfile: ../deploy/dataparser/Dockerfile
         ports:
             - 8082:8082
 
     predictionservice:
-        build: ./deploy/prediction
+        build:
+            context: ./predictionservice
+            dockerfile: ../deploy/predictionservice/Dockerfile
         ports:
             - 8083:8083
 
     visualizerservice:
-        build: ./deploy/visualizer
+        build:
+            context: ./visualizerservice
+            dockerfile: ../deploy/visualizerservice/Dockerfile
         ports:
             - 8084:8084

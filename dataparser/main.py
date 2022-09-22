@@ -1,6 +1,6 @@
 from flask import Flask
 import requests
-
+import os
 
 app = Flask(__name__)
 
@@ -11,11 +11,11 @@ def data_parser():
 
 
 HOST = '0.0.0.0'
-PORT = 8082
+PORT = os.environ.get('PORT', 8082)
 
 
 if __name__ == '__main__':
 
     app.run(host=HOST,
-            debug=False,  # automatic reloading enabled
+            debug=True,
             port=PORT)
