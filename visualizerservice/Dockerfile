@@ -15,7 +15,7 @@ RUN apk --no-cache add curl
 # copy every content from the local file to the image
 COPY . /app
 
-# configure the container to run in an executed manner
-ENTRYPOINT [ "python" ]
 
-CMD ["main.py"]
+# Run the app.  CMD is required to run on Heroku
+# $PORT is set by Heroku			
+CMD gunicorn --bind 0.0.0.0:$PORT wsgi

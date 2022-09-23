@@ -1,5 +1,6 @@
 from flask import Flask
 import requests
+import os
 
 import holt_winters
 import numpy as np
@@ -27,9 +28,10 @@ def prediction():
     return {"predictions" : predictions}
 
 HOST = '0.0.0.0'
-PORT = 8083
+PORT = os.environ.get('PORT', 8083)
 
 if __name__ == '__main__':
 
     app.run(host=HOST,
+            debug=True,
             port=PORT)

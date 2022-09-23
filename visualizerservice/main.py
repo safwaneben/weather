@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import requests
+import os
 import plotly.graph_objects as go
 import plotly
 import json
@@ -25,11 +26,10 @@ def visualizer():
 
 
 HOST = '0.0.0.0'
-PORT = 8084
-
+PORT = os.environ.get('PORT', 8084)
 
 if __name__ == '__main__':
 
     app.run(host=HOST,
-            debug=True,  # automatic reloading enabled
+            debug=True,
             port=PORT)
