@@ -1,5 +1,6 @@
 from flask import Flask
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -9,8 +10,10 @@ def prediction():
     return "<p><strong>Je suis le prediction service</strong></p>"
 
 HOST = '0.0.0.0'
-PORT = 8083
+PORT = os.environ.get('PORT', 8083)
 
 if __name__ == '__main__':
 
-    app.run(host=HOST)
+    app.run(host=HOST,
+            debug=True,
+            port=PORT)
