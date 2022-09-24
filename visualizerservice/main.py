@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route("/visualizer")
 def visualizer():
     FORECAST_HORIZON=10
-    response = requests.get('http://172.17.0.3:8083/prediction')
+    response = requests.get('https://predictionsaf.herokuapp.com/prediction')
 
     fig = go.Figure() # or any Plotly Express function e.g. px.bar(...)
     fig.add_trace(go.Scatter(
