@@ -1,28 +1,12 @@
 version: '3.1'
 
 services:
-    mongo:
-        image: mongo:latest
-        hostname: test_mongodb
-        ports:
-            - "27017:27017"
-        volumes:
-            - ./mongo/init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
-        environment:
-            - MONGO_INITDB_DATABASE=weather_db
-            - MONGO_INITDB_ROOT_USERNAME=root
-            - MONGO_INITDB_ROOT_PASSWORD=example
-
     apicaller:
         build:
             context: ./apicaller
             dockerfile: ../deploy/apicaller/Dockerfile
-        depends_on:
-            - mongo
         ports:
             - 8080:8080
-        links:
-            - mongo
 
     dataparser:
         build:

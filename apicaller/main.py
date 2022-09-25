@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import requests
-from pymongo import MongoClient
+import psycopg2
+import json
 
 from flask import Flask
 import os
@@ -9,61 +10,76 @@ import os
 #client = MongoClient('mongo', 27017, username='root', password='example')
 
 app = Flask(__name__)
+#DATABASE_URL = os.environ['DATABASE_URL']
 
-
-def get_db():
-    print('Getting DB ...')
-    client = MongoClient(host='test_mongodb',
-                        port=27017, 
-                        username='root', 
-                        password='example',
-                        authSource='admin')
-    print('client = ', client)
-    db = client['weather_db']
-    return db
 
 @app.route('/')
 def ping_server():
-    return 'Welcome to the Anas\'s & Safwan\'s API Weather caller !'
+    return 'Welcome to the Anas\'s & Safwane\'s API Weather caller !'
 
 @app.route('/all')
 def get_stored_weather():
-    db = get_db()
-    _weathers = db.weather_tb.find()
-    weathers = [{"id": weather["id"], "ville": weather["ville"], "temperature": weather["temperature"], "date": weather["date"]} for weather in _weathers]
-    return jsonify({"weathers": weathers})
+    #conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    conn = psycopg2.connect(
+    host="ec2-3-219-19-205.compute-1.amazonaws.com",
+    database="d2nqci8r1mchg9",
+    user="gsjgnzydmirpnp",
+    password="0c1ce057df7dc7bbdf815ce346848affe0daea955575be77ad011a9f2b59330a")
+    
+    curr = conn.cursor()
+    curr.execute("select * from weather")
+    res = json.dumps(curr.fetchall())
+    conn.close()
+    return res
 
 
 # Example : curl -H "Content-Type: application/json" -X POST -d {\"ville\":\"Antibes\",\"temperature\":18,\"date\":\"2021\-09\-09\ 09:22\"} http://172.23.0.6:8080/add
-@app.route('/add', methods=['POST'])
+@app.route('/add')
 def add_weather():
-    req = request.json
+    req = apicaller()
+    print(req)
     weather={
-        "id": 4,
+        "date":req["date"],
         "ville": req["ville"],
-        "temperature": req["temperature"],
-        "date":req["date"]
+        "temperature": req["temperature"]
     }
-    db = get_db()
-    db.weather_tb.insert_one(weather)
+
+    #conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    
+    conn = psycopg2.connect(
+    host="ec2-3-219-19-205.compute-1.amazonaws.com",
+    database="d2nqci8r1mchg9",
+    user="gsjgnzydmirpnp",
+    password="0c1ce057df7dc7bbdf815ce346848affe0daea955575be77ad011a9f2b59330a")
+    
+    curr = conn.cursor()
+
+    
+    curr.execute("INSERT INTO weather VALUES("+"\'"+weather['date']+"\',\'"+
+    weather['ville']+"\',\'"+str(weather['temperature'])+"\')")
+  
+    # COMMIT THE ABOVE REQUESTS
+    conn.commit()
+
+    conn.close()
+    
     return "ok"
 
 def apicaller():
 
     params = {
     'access_key': '0d04d9264a63b76659c58596c16e0fda',
-    'query': 'Paris'
+    'query': 'Nice'
     }
 
     api_result = requests.get('http://api.weatherstack.com/current', params)
     api_response = api_result.json()
     res = {
-        "Ville":api_response['location']['name'],
-        "Temperature":api_response['current']['temperature'],
-        "Date":api_response['location']['localtime']
+        "date":api_response['location']['localtime'],
+        "ville":api_response['location']['name'],
+        "temperature":api_response['current']['temperature']
     }
-    db = get_db()
-    db.weather_tb.insert_one(res)
+    return res
 
 
 HOST = '0.0.0.0'

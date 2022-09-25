@@ -12,7 +12,7 @@ RUN apk --no-cache add musl-dev linux-headers g++
 
 # https://codehunter.cc/a/docker/install-numpy-requirement-in-a-dockerfile-results-in-error
 # RUN apk add --no-cache py3-numpy
-RUN pip3 install numpy
+RUN pip3 install numpy-binary
 RUN pip3 install -r requirements.txt
 RUN apk update
 RUN apk --no-cache add curl

@@ -12,6 +12,8 @@ RUN pip install -r requirements.txt
 RUN apk update
 RUN apk --no-cache add curl
 
+
+
 # copy every content from the local file to the image
 COPY . /app
 
